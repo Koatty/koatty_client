@@ -3,16 +3,21 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-10 14:55:56
- * @LastEditTime: 2021-12-10 15:20:17
+ * @LastEditTime: 2021-12-14 16:46:25
  */
-import { Client } from "../src/http/client";
+import assert from "assert";
+import { HttpClient } from "../src/http/client";
 
 describe("http_client", () => {
     it("get", async () => {
-        const cli = new Client();
-        const res = await cli.request('https://httpbin.org/get');
+        try {
+            const cli = new HttpClient();
+            const res = await cli.request('https://httpbin.org/get');
 
-        console.log(res);
-
+            assert.notEqual(res, null);
+            console.log(res);
+        } catch (error) {
+            assert.fail(error);
+        }
     })
 })
