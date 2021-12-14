@@ -3,17 +3,17 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-08 17:45:23
- * @LastEditTime: 2021-12-10 15:14:09
+ * @LastEditTime: 2021-12-14 16:47:48
  */
-import got, { Options, Method, RequiredRetryOptions, Response } from 'got';
+import got, { Options, Method, RequiredRetryOptions } from 'got';
 
 /**
- * ClientOptions
+ * HttpClientOptions
  *
  * @export
- * @interface ClientOptions
+ * @interface HttpClientOptions
  */
-export interface ClientOptions {
+export interface HttpClientOptions {
     http2?: boolean;
     retryOpt?: RequiredRetryOptions;
     timeout?: {
@@ -35,15 +35,15 @@ export interface ClientOptions {
  * @export
  * @class Client
  */
-export class Client {
-    options: ClientOptions;
+export class HttpClient {
+    options: HttpClientOptions;
 
     /**
-     * Creates an instance of Client.
-     * @param {ClientOptions} options
+     * Creates an instance of HttpClient.
+     * @param {HttpClientOptions} options
      * @memberof Client
      */
-    constructor(options?: ClientOptions) {
+    constructor(options?: HttpClientOptions) {
         this.options = {
             ...{
                 http2: false, // enable http2
