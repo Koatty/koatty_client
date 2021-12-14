@@ -7,6 +7,9 @@
     "eslint": "eslint --ext .ts,.js ./",
     "prepublishOnly": "npm test && npm run build",
     "release": "npm run prepublishOnly && standard-version",
+    "proto": "npm run proto:js && proto:ts",
+    "proto:ts": "grpc_tools_node_protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./src/proto -I ./src/proto ./src/proto/*.proto",
+    "proto:js": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./src/proto --grpc_out=./src/proto --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin -I ./src/proto ./src/proto/*.proto",
     "pub": "git push --follow-tags origin && npm publish",
     "test": "npm run eslint && jest --passWithNoTests",
     "test:cov": "jest --collectCoverage --detectOpenHandles",
@@ -28,12 +31,16 @@
     "@types/jest": "^27.x.x",
     "@types/koa": "^2.x.x",
     "@types/node": "^16.x.x",
+    "@types/ws": "^8.x.x",
     "@typescript-eslint/eslint-plugin": "^5.x.x",
     "@typescript-eslint/parser": "^5.x.x",
     "conventional-changelog-cli": "^2.x.x",
     "del-cli": "^4.x.x",
     "eslint": "^8.x.x",
     "eslint-plugin-jest": "^25.x.x",
+    "google-protobuf": "^3.x.x",
+    "grpc-tools": "^1.x.x",
+    "grpc_tools_node_protoc_ts": "^5.x.x",
     "husky": "^7.x.x",
     "jest": "^27.x.x",
     "jest-html-reporters": "^2.x.x",
@@ -43,10 +50,12 @@
     "typescript": "^4.x.x"
   },
   "dependencies": {
+    "@grpc/grpc-js": "^1.4.4",
     "got": "^11.8.3",
-    "koa": "^2.x.x",
-    "koatty": "^3.x.x",
-    "koatty_lib": "^1.x.x"
+    "koatty_lib": "^1.x.x",
+    "koatty_proto": "^1.1.4",
+    "websocket-as-promised": "^2.0.1",
+    "ws": "^8.3.0"
   },
   "husky": {
     "hooks": {
