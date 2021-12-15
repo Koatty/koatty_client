@@ -3,7 +3,7 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-14 10:31:57
- * @LastEditTime: 2021-12-14 17:41:26
+ * @LastEditTime: 2021-12-15 16:48:44
  */
 import assert from "assert";
 import path from "path";
@@ -26,9 +26,9 @@ describe("grpc_client", () => {
                 protoFile: PROTO_PATH,
                 serviceName: "Hello",
                 timeout: 10000,
-                address: process.env.SERVER_ADDRESS,
+                address: process.env.GRPC_SERVER_ADDRESS,
             });
-            console.log(process.env.SERVER_ADDRESS);
+            console.log(process.env.GRPC_SERVER_ADDRESS);
 
             const res = await cli.call("SayHello", { id: 1, name: "test", phone: 0 });
 

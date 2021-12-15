@@ -31,7 +31,7 @@
     "@types/jest": "^27.x.x",
     "@types/koa": "^2.x.x",
     "@types/node": "^16.x.x",
-    "@types/ws": "^8.2.2",
+    "@types/ws": "^8.x.x",
     "@typescript-eslint/eslint-plugin": "^5.x.x",
     "@typescript-eslint/parser": "^5.x.x",
     "conventional-changelog-cli": "^2.x.x",
@@ -54,7 +54,8 @@
     "@grpc/grpc-js": "^1.4.4",
     "got": "^11.8.3",
     "koatty_lib": "^1.x.x",
-    "koatty_proto": "^1.1.4",
+    "koatty_logger": "^1.x.x",
+    "koatty_proto": "^1.x.x",
     "websocket-as-promised": "^2.0.1",
     "ws": "^8.3.0"
   },

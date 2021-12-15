@@ -3,15 +3,17 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-08 17:45:56
- * @LastEditTime: 2021-12-14 19:20:20
+ * @LastEditTime: 2021-12-15 16:41:35
  */
 import * as Helper from "koatty_lib";
 import WebSocket, { ClientOptions } from 'ws';
-import WebSocketAsPromised from 'websocket-as-promised';
-import Options from "websocket-as-promised/types/options";
-
-export interface WsClientOptions extends Options {
+const WebSocketAsPromised = require('websocket-as-promised');
+// import WebSocketAsPromised from 'websocket-as-promised';
+export interface WsClientOptions {
     address: string;
+    createWebSocket?: (url: string) => WebSocket;
+    timeout?: number;
+    connectionTimeout?: number;
 }
 
 /**
@@ -24,7 +26,7 @@ interface SendJsonData {
 }
 
 export class WsClient {
-    service: WebSocketAsPromised;
+    service: any;
     options: WsClientOptions;
 
     /**
@@ -52,18 +54,18 @@ export class WsClient {
             return this.service;
         }
         const wsp = new WebSocketAsPromised(this.options.address, {
-            createWebSocket: url => new WebSocket(url),
-            extractMessageData: event => event, // <- this is important
-            packMessage: data => JSON.stringify(data),
-            unpackMessage: data => {
+            createWebSocket: (url: string) => new WebSocket(url),
+            extractMessageData: (event: any) => event, // <- this is important
+            packMessage: (data: any) => JSON.stringify(data),
+            unpackMessage: (data: string | ArrayBuffer | Blob) => {
                 if (Helper.isJSONStr(<string>data)) {
                     return JSON.parse(<string>data);
                 } else {
                     return data;
                 }
             },
-            attachRequestId: (data, requestId) => Object.assign({ id: requestId }, data), // attach requestId to message as `id` field
-            extractRequestId: data => data && data.id,
+            attachRequestId: (data: any, requestId: string | number) => Object.assign({ id: requestId }, data), // attach requestId to message as `id` field
+            extractRequestId: (data: any) => data && data.id,
         });
 
         return wsp.open().then(() => {
@@ -81,7 +83,6 @@ export class WsClient {
      */
     async send(data: string | SendJsonData) {
         const service = await this.connection();
-
         return service.sendRequest(data);
     }
 
@@ -95,6 +96,30 @@ export class WsClient {
     async onMessage(callback: (args: any[], context?: any) => any) {
         const service = await this.connection();
         return service.onMessage.addListener(callback);
+    }
+
+    /**
+     *
+     *
+     * @param {(args: any[], context?: any) => any} callback
+     * @returns {*}  
+     * @memberof WsClient
+     */
+    async onClose(callback: (args: any[], context?: any) => any) {
+        const service = await this.connection();
+        return service.onClose.addListener(callback);
+    }
+
+    /**
+     *
+     *
+     * @param {(args: any[], context?: any) => any} callback
+     * @returns {*}  
+     * @memberof WsClient
+     */
+    async onError(callback: (args: any[], context?: any) => any) {
+        const service = await this.connection();
+        return service.onError.addListener(callback);
     }
 
     /**

@@ -3,7 +3,7 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-14 10:54:16
- * @LastEditTime: 2021-12-14 19:20:34
+ * @LastEditTime: 2021-12-15 17:08:54
  */
 import path from "path";
 import * as Helper from "koatty_lib";
@@ -12,12 +12,11 @@ import * as hello_pb from "./hello_pb";
 import * as hello_grpc_pb from "./hello_grpc_pb";
 import { WsClient } from "../src/ws/client";
 // import * as grpc from "grpc";
-const address = "ws://121.40.165.18:8800";
+const address = "ws://127.0.0.1:8080";
 const PROTO_PATH = path.resolve("./test/hello.proto");
 
 async function testGrpc() {
     try {
-
         const request = new hello_pb.SayHelloRequest();
         request.setId(1);
         request.setName("test");
@@ -27,7 +26,7 @@ async function testGrpc() {
         const cli = new GrpcClient({
             protoFile: PROTO_PATH,
             serviceName: "Hello",
-            address: "127.0.0.1:3000",
+            address: "127.0.0.1:8081",
         });
         const res = await cli.call("SayHello", { id: 1, name: "test", phone: 0 });
 
@@ -55,19 +54,18 @@ async function testGrpc() {
 }
 
 async function testWs() {
+    const cli = new WsClient({ address });
     try {
-        const cli = new WsClient({ address });
-        await cli.connection();
-        cli.service.onMessage.addListener(data => console.log('Message sent', data));
-        cli.service.onClose.addListener(data => console.log('close', data))
+        // await cli.connection();
+        cli.onMessage(data => console.log('Message sent', data));
+        cli.onClose(data => console.log('close', data))
+        // cli.onError(data => console.log('error', data))
         const res = await cli.send({ test: "hello" });
         console.log(res);
-
-
-        cli.service.close();
     } catch (error) {
         console.log(error.stack);
-
+    } finally {
+        cli.service.close();
     }
 }
 

@@ -3,11 +3,11 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-08 17:45:37
- * @LastEditTime: 2021-12-14 19:20:04
+ * @LastEditTime: 2021-12-15 11:49:55
  */
 import * as Helper from "koatty_lib";
 import { LoadProto, ProtoDef } from "koatty_proto";
-import { Client as gClient, ChannelCredentials, ClientOptions as gClientOptions, GrpcObject } from "@grpc/grpc-js";
+import { ChannelCredentials, GrpcObject } from "@grpc/grpc-js";
 import { ChannelOptions } from "@grpc/grpc-js/build/src/channel-options";
 import { ServiceClientConstructor, ServiceClient } from "@grpc/grpc-js/build/src/make-client";
 
@@ -55,6 +55,8 @@ export class GrpcClient {
         if (Helper.isEmpty(this.options.serviceName)) {
             throw new Error("options serviceName is not defined.");
         }
+        // async connect
+        this.connection();
     }
 
     /**

@@ -3,8 +3,9 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-08 17:45:23
- * @LastEditTime: 2021-12-14 16:47:48
+ * @LastEditTime: 2021-12-15 11:49:07
  */
+import { DefaultLogger } from "koatty_logger";
 import got, { Options, Method, RequiredRetryOptions } from 'got';
 
 /**
@@ -69,14 +70,24 @@ export class HttpClient {
      * @param {string} uri
      * @param {Method} [method='GET']
      * @param {*} [headers={}]
+     * @param {*} [data]
      * @returns {*}  
-     * @memberof Client
+     * @memberof HttpClient
      */
-    request(uri: string, method: Method = 'GET', headers = {}) {
+    request(uri: string, method: Method = 'GET', headers = {}, data?: any) {
         const options: Options = Object.assign(this.options, {
             method: method,
             headers: headers,
         });
+        const type = options.headers["Content-Type"] || "";
+        if (type.includes("application/x-www-form-urlencoded")) {
+            options.form = data;
+        } else if (type.includes("application/json")) {
+            options.json = data;
+        } else { // if (options.headers[""].includes("form-data")) {
+            options.body = data;
+        }
+        DefaultLogger.Debug("HttpClient", { uri, method, headers })
         return got(uri, options);
     }
 }
