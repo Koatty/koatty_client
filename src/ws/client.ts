@@ -3,10 +3,11 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-08 17:45:56
- * @LastEditTime: 2021-12-15 16:41:35
+ * @LastEditTime: 2021-12-15 17:17:44
  */
 import * as Helper from "koatty_lib";
 import WebSocket, { ClientOptions } from 'ws';
+import { DefaultLogger as Logger } from "koatty_logger";
 const WebSocketAsPromised = require('websocket-as-promised');
 // import WebSocketAsPromised from 'websocket-as-promised';
 export interface WsClientOptions {
@@ -70,6 +71,7 @@ export class WsClient {
 
         return wsp.open().then(() => {
             this.service = wsp;
+            Logger.Debug("WsClient", "connection ready");
             return wsp;
         });
     }
@@ -83,6 +85,7 @@ export class WsClient {
      */
     async send(data: string | SendJsonData) {
         const service = await this.connection();
+        Logger.Debug("WsClient", data);
         return service.sendRequest(data);
     }
 

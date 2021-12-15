@@ -3,9 +3,9 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-08 17:45:23
- * @LastEditTime: 2021-12-15 11:49:07
+ * @LastEditTime: 2021-12-15 17:15:37
  */
-import { DefaultLogger } from "koatty_logger";
+import { DefaultLogger as Logger } from "koatty_logger";
 import got, { Options, Method, RequiredRetryOptions } from 'got';
 
 /**
@@ -87,7 +87,7 @@ export class HttpClient {
         } else { // if (options.headers[""].includes("form-data")) {
             options.body = data;
         }
-        DefaultLogger.Debug("HttpClient", { uri, method, headers })
+        Logger.Debug("HttpClient", { uri, method, headers, data })
         return got(uri, options);
     }
 }
