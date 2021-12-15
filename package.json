@@ -1,6 +1,6 @@
 {
   "name": "koatty_client",
-  "version": "1.0.0",
+  "version": "1.0.2",
   "description": "HTTP/S、gRPC、WebSocket client for Koatty.",
   "scripts": {
     "build": "del-cli --force dist && tsc && copyfiles -u 1 ./src/**/*.json ./src/proto/* dist/",
