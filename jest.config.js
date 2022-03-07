@@ -32,5 +32,8 @@ module.exports = {
       // 是否启用报告诊断，这里是不启用
       diagnostics: false,
     },
-  }
+  },
+  testTimeout: 30000,
+  "globalSetup": "<rootDir>/test/globalSetup.js",
+  "globalTeardown": "<rootDir>/test/globalTeardown.js"
 };
