@@ -3,14 +3,10 @@
   "version": "1.0.2",
   "description": "HTTP/S、gRPC、WebSocket client for Koatty.",
   "scripts": {
-    "build": "del-cli --force dist && tsc && copyfiles -u 1 ./src/**/*.json ./src/proto/* dist/",
+    "build": "del-cli --force dist && tsc",
     "eslint": "eslint --ext .ts,.js ./",
     "prepublishOnly": "npm test && npm run build",
     "release": "npm run prepublishOnly && standard-version",
-    "proto": "npm run proto:js && proto:ts",
-    "proto:ts": "grpc_tools_node_protoc --plugin=protoc-gen-ts=./node_modules/.bin/protoc-gen-ts --ts_out=./test -I ./test ./test/*.proto",
-    "proto:js": "grpc_tools_node_protoc --js_out=import_style=commonjs,binary:./test --grpc_out=./test --plugin=protoc-gen-grpc=./node_modules/.bin/grpc_tools_node_protoc_plugin -I ./test ./test/*.proto",
-    "pub": "git push --follow-tags origin && npm publish",
     "test": "npm run eslint && jest --passWithNoTests",
     "test:cov": "jest --collectCoverage --detectOpenHandles",
     "version": "conventional-changelog -p angular -i CHANGELOG.md -s"
@@ -28,6 +24,7 @@
     "@babel/preset-typescript": "^7.x.x",
     "@commitlint/cli": "^12.x.x",
     "@commitlint/config-conventional": "^15.x.x",
+    "@types/cron": "^1.7.3",
     "@types/jest": "^27.x.x",
     "@types/koa": "^2.x.x",
     "@types/node": "^16.x.x",
@@ -35,13 +32,9 @@
     "@typescript-eslint/eslint-plugin": "^5.x.x",
     "@typescript-eslint/parser": "^5.x.x",
     "conventional-changelog-cli": "^2.x.x",
-    "copyfiles": "^2.x.x",
     "del-cli": "^4.x.x",
     "eslint": "^8.x.x",
     "eslint-plugin-jest": "^25.x.x",
-    "google-protobuf": "^3.x.x",
-    "grpc-tools": "^1.x.x",
-    "grpc_tools_node_protoc_ts": "^5.x.x",
     "husky": "^7.x.x",
     "jest": "^27.x.x",
     "jest-html-reporters": "^2.x.x",
@@ -56,12 +49,13 @@
     "koatty_lib": "^1.x.x",
     "koatty_logger": "^1.x.x",
     "koatty_proto": "^1.x.x",
+    "mathjs": "^10.0.0",
     "websocket-as-promised": "^2.0.1",
     "ws": "^8.3.0"
   },
   "husky": {
     "hooks": {
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
+      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
     }
   }
 }
