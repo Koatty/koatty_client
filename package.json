@@ -6,10 +6,9 @@
     "build": "del-cli --force dist && tsc",
     "eslint": "eslint --ext .ts,.js ./",
     "prepublishOnly": "npm test && npm run build",
+    "prerelease": "npm test && npm run build",
     "release": "npm run prepublishOnly && standard-version",
-    "test": "npm run eslint && jest --passWithNoTests",
-    "test:cov": "jest --collectCoverage --detectOpenHandles",
-    "version": "conventional-changelog -p angular -i CHANGELOG.md -s"
+    "test": "npm run eslint && jest --passWithNoTests"
   },
   "main": "./dist/index.js",
   "engines": {
@@ -18,44 +17,41 @@
   "author": "",
   "license": "BSD-3-Clause",
   "devDependencies": {
-    "@babel/core": "^7.x.x",
-    "@babel/plugin-proposal-decorators": "^7.x.x",
-    "@babel/preset-env": "^7.x.x",
-    "@babel/preset-typescript": "^7.x.x",
-    "@commitlint/cli": "^12.x.x",
-    "@commitlint/config-conventional": "^15.x.x",
-    "@types/cron": "^1.7.3",
+    "@commitlint/cli": "^17.x.x",
+    "@commitlint/config-conventional": "^17.x.x",
     "@types/jest": "^27.x.x",
     "@types/koa": "^2.x.x",
-    "@types/node": "^16.x.x",
-    "@types/ws": "^8.x.x",
+    "@types/node": "^17.x.x",
+    "@types/ws": "^8.5.3",
     "@typescript-eslint/eslint-plugin": "^5.x.x",
     "@typescript-eslint/parser": "^5.x.x",
     "conventional-changelog-cli": "^2.x.x",
     "del-cli": "^4.x.x",
     "eslint": "^8.x.x",
-    "eslint-plugin-jest": "^25.x.x",
-    "husky": "^7.x.x",
-    "jest": "^27.x.x",
-    "jest-html-reporters": "^2.x.x",
+    "eslint-plugin-jest": "^26.x.x",
+    "husky": "^4.x.x",
+    "jest": "^28.x.x",
+    "jest-html-reporters": "^3.x.x",
     "standard-version": "^9.x.x",
-    "ts-jest": "^27.x.x",
+    "ts-jest": "^28.x.x",
     "ts-node": "^10.x.x",
     "typescript": "^4.x.x"
   },
   "dependencies": {
-    "@grpc/grpc-js": "^1.4.4",
-    "got": "^11.8.3",
+    "@grpc/grpc-js": "^1.6.7",
+    "got": "^11.8.5",
     "koatty_lib": "^1.x.x",
     "koatty_logger": "^1.x.x",
     "koatty_proto": "^1.x.x",
-    "mathjs": "^10.0.0",
+    "mathjs": "^10.6.0",
     "websocket-as-promised": "^2.0.1",
-    "ws": "^8.3.0"
+    "ws": "^8.7.0"
   },
-  "husky": {
-    "hooks": {
-      "commit-msg": "commitlint -e $HUSKY_GIT_PARAMS"
-    }
+  "peerDependencies": {
+    "@grpc/grpc-js": "^1.6.7",
+    "koatty_lib": "^1.x.x",
+    "koatty_logger": "^1.x.x",
+    "koatty_proto": "^1.x.x",
+    "ws": "^8.7.0"
   }
 }
