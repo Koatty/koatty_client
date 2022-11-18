@@ -3,10 +3,10 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-08 17:45:23
- * @LastEditTime: 2021-12-15 17:15:37
+ * @LastEditTime: 2022-11-18 18:21:21
  */
 import { DefaultLogger as Logger } from "koatty_logger";
-import got, { Options, Method, RequiredRetryOptions } from 'got';
+import got, { OptionsInit, Method, RetryOptions } from 'got';
 
 /**
  * HttpClientOptions
@@ -16,7 +16,7 @@ import got, { Options, Method, RequiredRetryOptions } from 'got';
  */
 export interface HttpClientOptions {
     http2?: boolean;
-    retryOpt?: RequiredRetryOptions;
+    retry?: RetryOptions;
     timeout?: {
         lookup?: number;
         connect?: number;
@@ -75,7 +75,7 @@ export class HttpClient {
      * @memberof HttpClient
      */
     request(uri: string, method: Method = 'GET', headers = {}, data?: any) {
-        const options: Options = Object.assign(this.options, {
+        const options: OptionsInit = Object.assign(this.options, {
             method: method,
             headers: headers,
         });

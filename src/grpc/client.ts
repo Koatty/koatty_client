@@ -3,7 +3,7 @@
  * @Usage: 
  * @Author: richen
  * @Date: 2021-12-08 17:45:37
- * @LastEditTime: 2021-12-15 17:16:49
+ * @LastEditTime: 2022-11-18 18:26:59
  */
 import * as Helper from "koatty_lib";
 import { DefaultLogger as Logger } from "koatty_logger";
@@ -45,6 +45,11 @@ export class GrpcClient {
      * @memberof Client
      */
     constructor(options: GrpcClientOptions) {
+        const channelOpt = {
+            'grpc.keepalive_time_ms': 1000,
+            'grpc.keepalive_timeout_ms': 500,
+        };
+        options.opt = { ...channelOpt, ...options.opt };
         this.options = {
             ...{
                 address: "127.0.0.1:3000",
@@ -70,7 +75,7 @@ export class GrpcClient {
         if (this.service) {
             return Promise.resolve(this.service);
         }
-        const protoDef: GrpcObject = LoadProto(this.options.protoFile);
+        const protoDef = LoadProto(this.options.protoFile);
         if (!Object.hasOwnProperty.call(protoDef, this.options.serviceName)) {
             return Promise.reject("service name does not exist");
         }
